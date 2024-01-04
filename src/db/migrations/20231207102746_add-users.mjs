@@ -5,6 +5,7 @@ export const up = async (db) => {
     table.text("passwordHash").notNullable()
     table.text("passwordSalt").notNullable()
     table.timestamps(true, true, true)
+    table.text("isAdmin").notNullable().defaultTo(false)
   })
 }
 

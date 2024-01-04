@@ -8,6 +8,7 @@ import CategoryModel from "@/db/models/CategoryModel"
 import TodoModel from "@/db/models/TodoModel"
 import UserModel from "@/db/models/UserModel"
 import BlogModel from "@/db/models/BlogModel"
+import BlogCategoryModel from "@/db/models/BlogCategoryModel"
 import knex from "knex"
 import { NotFoundError as ObjectionNotFoundError } from "objection"
 
@@ -26,6 +27,7 @@ const mw = (handlers) => async (req, res) => {
       CategoryModel,
       UserModel,
       BlogModel,
+      BlogCategoryModel,
     },
     req,
     res,

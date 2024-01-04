@@ -2,7 +2,7 @@ import BaseModel from "./BaseModel"
 import CategoryModel from "./CategoryModel"
 
 class BlogModel extends BaseModel {
-  static tableName = "blog"
+  static tableName = "blogs"
 
   static get relationMappings() {
     return {
@@ -10,8 +10,8 @@ class BlogModel extends BaseModel {
         relation: BaseModel.BelongsToOneRelation,
         modelClass: CategoryModel,
         join: {
-          from: "blog.blogId",
-          to: "categoriesPage.id",
+          from: "blogs.categoryId",
+          to: "categories.id",
         },
       },
     }

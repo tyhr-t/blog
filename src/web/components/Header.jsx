@@ -1,7 +1,15 @@
 import { useSession } from "@/web/components/SessionContext"
 import Button from "@/web/components/ui/Button"
 import Link from "@/web/components/ui/Link"
+import apiClient from "../services/apiClient"
 
+export const getServerSideProps = async () => {
+  const nameUser = await apiClient("/users")
+
+  return {
+    props: { nameUser },
+  }
+}
 const MenuItem = ({ children, href, ...otherProps }) => (
   <li {...otherProps}>
     <Link styless href={href}>
@@ -9,7 +17,7 @@ const MenuItem = ({ children, href, ...otherProps }) => (
     </Link>
   </li>
 )
-const Header = () => {
+const Header = ({ nameUser }) => {
   const { session, signOut } = useSession()
 
   return (
@@ -24,9 +32,14 @@ const Header = () => {
           <ul className="flex h-full gap-4 items-center">
             {session ? (
               <>
+                <MenuItem href="/blog/create">create a blog</MenuItem>
                 <MenuItem href="/">List todos</MenuItem>
                 <MenuItem href="/todos/create">Create todo</MenuItem>
+                <MenuItem href="/blog/create">Create blog</MenuItem>
                 <MenuItem href="/categories">List categories</MenuItem>
+                <p className="text-2xl">
+                  l'utilisateur connecter est {nameUser?.email}
+                </p>
                 <li>
                   <Button
                     variant="transparent"
