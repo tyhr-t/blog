@@ -17,11 +17,11 @@ const MenuItem = ({ children, href, ...otherProps }) => (
     </Link>
   </li>
 )
-const Header = ({ nameUser }) => {
+const Header = () => {
   const { session, signOut } = useSession()
 
   return (
-    <header className="border-b-2 bg-slate-100">
+    <header className="border-b-2 bg-pink-300">
       <div className="flex md:max-w-3xl mx-auto p-4">
         <div className="text-2xl">
           <Link href="/" styless>
@@ -32,14 +32,8 @@ const Header = ({ nameUser }) => {
           <ul className="flex h-full gap-4 items-center">
             {session ? (
               <>
-                <MenuItem href="/blog/create">create a blog</MenuItem>
-                <MenuItem href="/">List todos</MenuItem>
-                <MenuItem href="/todos/create">Create todo</MenuItem>
-                <MenuItem href="/blog/create">Create blog</MenuItem>
-                <MenuItem href="/categories">List categories</MenuItem>
-                <p className="text-2xl">
-                  l'utilisateur connecter est {nameUser?.email}
-                </p>
+                <MenuItem href="/blog/create">Create blog 📝</MenuItem>
+
                 <li>
                   <Button
                     variant="transparent"

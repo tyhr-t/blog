@@ -7,7 +7,7 @@ const client = new QueryClient()
 const App = ({ Component, pageProps }) => (
   <QueryClientProvider client={client}>
     <SessionProvider>
-      <div className="flex flex-col">
+      <div className=" font-mono h-screen bg-gradient-to-r  from-gray-100 to-gray-300 flex flex-col">
         <Header />
         <section className="p-4">
           <div className="md:max-w-3xl p-4 mx-auto">

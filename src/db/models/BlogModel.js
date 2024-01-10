@@ -1,5 +1,5 @@
 import BaseModel from "./BaseModel"
-import CategoryModel from "./CategoryModel"
+import BlogCategoryModel from "./BlogCategoryModel"
 
 class BlogModel extends BaseModel {
   static tableName = "blogs"
@@ -8,10 +8,10 @@ class BlogModel extends BaseModel {
     return {
       category: {
         relation: BaseModel.BelongsToOneRelation,
-        modelClass: CategoryModel,
+        modelClass: BlogCategoryModel,
         join: {
           from: "blogs.categoryId",
-          to: "categories.id",
+          to: "blogCategories.id",
         },
       },
     }

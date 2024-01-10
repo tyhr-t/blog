@@ -17,13 +17,13 @@ const handle = mw({
     }),
     async ({
       res,
-      models: { TodoModel },
+      models: { BlogModel },
       input: {
         query: { page },
       },
     }) => {
-      const query = TodoModel.query()
-      const todos = await query
+      const query = BlogModel.query()
+      const blog = await query
         .clone()
         .withGraphFetched("category")
         .orderBy("createdAt", "DESC")
@@ -32,7 +32,7 @@ const handle = mw({
       const [{ count }] = await query.clone().count()
 
       res.send({
-        result: todos,
+        result: blog,
         meta: {
           count,
         },
@@ -50,7 +50,7 @@ const handle = mw({
     async ({
       models: { BlogModel },
       input: {
-        body: { content, title, categoryId },
+        body: { content, title, categoryId, isPublic },
       },
       res,
     }) => {
@@ -59,6 +59,7 @@ const handle = mw({
           content,
           categoryId,
           title,
+          isPublic,
         })
         .withGraphFetched("category")
       res.send(blog)
