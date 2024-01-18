@@ -47,7 +47,7 @@ const mw = (handlers) => async (req, res) => {
 
     if (!(error instanceof PublicError)) {
       // eslint-disable-next-line no-console
-      console.error(error)
+      // console.error(error)
 
       res
         .status(HTTP_ERRORS.INTERNAL_SERVER_ERROR)

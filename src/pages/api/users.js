@@ -10,6 +10,7 @@ const handle = mw({
         password: passwordValidator,
       },
     }),
+
     async ({
       input: {
         body: { email, password },
@@ -30,6 +31,41 @@ const handle = mw({
 
       await UserModel.query().insertAndFetch({
         email,
+        passwordHash,
+        passwordSalt,
+      })
+
+      res.send({ result: true })
+    },
+  ],
+
+  PATCH: [
+    validate({
+      body: {
+        email: emailValidator,
+        password: passwordValidator,
+      },
+    }),
+
+    async ({
+      input: {
+        body: { email, password },
+      },
+      models: { UserModel },
+      res,
+    }) => {
+      const user = await UserModel.query().findOne({ email })
+
+      if (!user) {
+        res.send({ result: false })
+
+        return
+      }
+
+      const [passwordHash, passwordSalt] =
+        await UserModel.hashPassword(password)
+
+      await UserModel.query().findOne({ email }).patch({
         passwordHash,
         passwordSalt,
       })

@@ -32,8 +32,6 @@ const createApiClient =
     return client[method.toLowerCase()](...args)
       .then(({ data }) => data)
       .catch((err) => {
-        console.log(err)
-
         if (!(err instanceof AxiosError)) {
           throw err
         }

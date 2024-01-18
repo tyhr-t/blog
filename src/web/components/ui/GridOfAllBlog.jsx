@@ -3,14 +3,24 @@ const GridOfAllBlog = ({ blog }) => (
     {blog.map((blogs) => (
       <div
         key={blogs.id}
-        className="hover:bg-blue-500 hover:text-white bg-gray-100 p-4 rounded-lg shadow-lg cursor-pointer"
+        className=" hover:text-white bg-gray-100 p-4 rounded-lg shadow-lg cursor-pointer relative"
       >
         <div className="bg-transparent rounded-full text-xs px-2 py-1 mb-2">
           <span className="inline-block bg-gray-200 rounded-full px-2 py-1 text-sm font-semibold text-gray-700 mr-2">
             {blogs.category.name}
           </span>
         </div>
-        <span className="text-2xl text-gray-800">{blogs.title}</span>
+        <span className="text-2xl text-gray-800">
+          {`${blogs.title.slice(0, 7).toUpperCase()}...`}
+        </span>
+        <button
+          onClick={() => {
+            console.log(blogs.id)
+          }}
+          className="absolute top-2 right-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+        >
+          Edit
+        </button>
       </div>
     ))}
   </div>

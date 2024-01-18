@@ -25,6 +25,7 @@ const CreateTodoPage = () => {
       onSubmit={handleSubmit}
     >
       <Form>
+        <h1 className="text-3xl font-bold">Create Todo</h1>
         <FormField name="description" placeholder="Enter a description" />
         <button
           type="submit"

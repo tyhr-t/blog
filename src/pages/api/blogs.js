@@ -26,11 +26,11 @@ const handle = mw({
       const blog = await query
         .clone()
         .withGraphFetched("category")
+        .where("isPublic", true)
         .orderBy("createdAt", "DESC")
         .limit(config.ui.itemsPerPage)
         .offset((page - 1) * config.ui.itemsPerPage)
       const [{ count }] = await query.clone().count()
-
       res.send({
         result: blog,
         meta: {

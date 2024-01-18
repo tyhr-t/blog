@@ -21,7 +21,7 @@ const Header = () => {
   const { session, signOut } = useSession()
 
   return (
-    <header className="border-b-2 bg-pink-300">
+    <header className="border-b-2 bg-slate-300">
       <div className="flex md:max-w-3xl mx-auto p-4">
         <div className="text-2xl">
           <Link href="/" styless>
@@ -32,8 +32,9 @@ const Header = () => {
           <ul className="flex h-full gap-4 items-center">
             {session ? (
               <>
-                <MenuItem href="/blog/create">Create blog 📝</MenuItem>
-
+                <MenuItem href="/blog/create">Create Post</MenuItem>
+                <MenuItem href="/blog">list Post</MenuItem>
+                <MenuItem href="/blog">edit profile</MenuItem>
                 <li>
                   <Button
                     variant="transparent"

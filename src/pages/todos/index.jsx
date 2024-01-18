@@ -5,8 +5,12 @@ import apiClient from "@/web/services/apiClient"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
 
-export const getServerSideProps = async ({ query: { page } }) => {
-  const data = await apiClient("/todos", { params: { page } })
+export const getServerSideProps = async ({ query: { page }, req }) => {
+  const cookies = req.headers.cookie
+  const data = await apiClient("/todos", {
+    params: { page },
+    headers: { Cookie: cookies },
+  })
 
   return {
     props: { initialData: data },

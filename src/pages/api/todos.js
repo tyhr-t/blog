@@ -38,6 +38,7 @@ const handle = mw({
     },
   ],
   GET: [
+    auth,
     validate({
       query: {
         page: pageValidator.optional(),
@@ -50,6 +51,7 @@ const handle = mw({
         query: { page },
       },
     }) => {
+      console.log("GETTING TODOS")
       const query = TodoModel.query()
       const todos = await query
         .clone()

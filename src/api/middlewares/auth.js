@@ -4,6 +4,7 @@ import jsonwebtoken from "jsonwebtoken"
 
 const auth = async (ctx) => {
   const {
+    models: { UserModel },
     req: {
       cookies: { [config.security.jwt.cookieName]: sessionToken },
     },
@@ -15,11 +16,13 @@ const auth = async (ctx) => {
       sessionToken,
       config.security.jwt.secret,
     )
+    const { id } = payload
+    const user = await UserModel.query().findById(id)
 
-    ctx.session = payload
+    ctx.session = user
 
     await next()
-  } catch (err) {
+  } catch (error) {
     throw new ForbiddenError()
   }
 }
