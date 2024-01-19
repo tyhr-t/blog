@@ -1,4 +1,5 @@
 import { ForbiddenError } from "@/api/errors"
+
 const getValidateRole = (roles) => {
   const validateRole = async (ctx) => {
     const { next, session } = ctx
@@ -6,7 +7,7 @@ const getValidateRole = (roles) => {
     if (roles.includes(session.role)) {
       await next()
     } else {
-      throw new ForbiddenError("You dont have the require permission :( ")
+      throw new ForbiddenError("You dont have the require permission  ")
     }
   }
 

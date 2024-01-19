@@ -3,8 +3,6 @@ import axios from "axios"
 export const getServerSideProps = async () => {
   const blog = await axios.get("http://localhost:3000/api/blogs")
 
-  console.log(blog)
-
   return {
     props: {
       blog: blog.data.result,

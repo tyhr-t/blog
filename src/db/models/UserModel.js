@@ -12,18 +12,16 @@ class UserModel extends BaseModel {
     password,
     salt = randomBytes(config.security.password.keylen).toString("hex"),
   ) {
-    return [
-      (
-        await pbkdf2Async(
-          password,
-          salt + config.security.password.pepper,
-          config.security.password.iterations,
-          config.security.password.keylen,
-          config.security.password.digest,
-        )
-      ).toString("hex"),
-      salt,
-    ]
+    const hashBytes = await pbkdf2Async(
+      password,
+      salt + config.security.password.pepper,
+      config.security.password.iterations,
+      config.security.password.keylen,
+      config.security.password.digest,
+    )
+    const hash = hashBytes.toString("hex")
+
+    return [hash, salt]
   }
 }
 

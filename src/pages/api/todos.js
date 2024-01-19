@@ -12,6 +12,7 @@ import config from "@/web/config"
 const handle = mw({
   POST: [
     auth,
+    // getValidateRole(["admin"]),
     validate({
       body: {
         description: todoDescriptionValidator,

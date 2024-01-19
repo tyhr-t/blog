@@ -1,6 +1,9 @@
+import auth from "@/api/middlewares/auth"
 import { validate } from "@/api/middlewares/validate"
+import getValidateRole from "@/api/middlewares/validateRole"
 import mw from "@/api/mw"
 import { emailValidator, passwordValidator } from "@/utils/validators"
+import { UnauthorizedError } from "@/api/errors"
 
 const handle = mw({
   POST: [
@@ -40,16 +43,17 @@ const handle = mw({
   ],
 
   PATCH: [
+    auth,
     validate({
       body: {
         email: emailValidator,
         password: passwordValidator,
+        oldPassword: passwordValidator,
       },
     }),
-
     async ({
       input: {
-        body: { email, password },
+        body: { email, password, oldPassword },
       },
       models: { UserModel },
       res,
@@ -62,6 +66,17 @@ const handle = mw({
         return
       }
 
+      /* On vérifie que le old password est bien le password actuel */
+      const [hash] = await UserModel.hashPassword(
+        oldPassword,
+        user.passwordSalt,
+      )
+
+      if (hash !== user.passwordHash) {
+        throw new UnauthorizedError()
+      }
+
+      /* On hash le nouveau password et on l'assigne à l'utilisateur */
       const [passwordHash, passwordSalt] =
         await UserModel.hashPassword(password)
 
@@ -71,6 +86,15 @@ const handle = mw({
       })
 
       res.send({ result: true })
+    },
+  ],
+  GET: [
+    auth,
+    getValidateRole(["admin"]),
+    async ({ models: { UserModel }, res }) => {
+      const users = await UserModel.query()
+
+      res.send({ result: users })
     },
   ],
 })
