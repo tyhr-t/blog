@@ -1,9 +1,9 @@
+import { UnauthorizedError } from "@/api/errors"
 import auth from "@/api/middlewares/auth"
 import { validate } from "@/api/middlewares/validate"
 import getValidateRole from "@/api/middlewares/validateRole"
 import mw from "@/api/mw"
 import { emailValidator, passwordValidator } from "@/utils/validators"
-import { UnauthorizedError } from "@/api/errors"
 
 const handle = mw({
   POST: [
@@ -42,6 +42,7 @@ const handle = mw({
     },
   ],
 
+  // Route pour modifier son propre profil
   PATCH: [
     auth,
     validate({
@@ -88,6 +89,7 @@ const handle = mw({
       res.send({ result: true })
     },
   ],
+
   GET: [
     auth,
     getValidateRole(["admin"]),

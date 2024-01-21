@@ -9,14 +9,10 @@ export const getServerSideProps = async () => {
     },
   }
 }
-const index = ({ blog }) => {
-  console.log(blog)
-
-  return (
-    <div className="  ">
-      <GridOfAllBlog blog={blog} />
-    </div>
-  )
-}
+const index = ({ blog }) => (
+  <div className="  ">
+    <GridOfAllBlog blog={blog} />
+  </div>
+)
 
 export default index

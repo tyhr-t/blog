@@ -3,6 +3,7 @@ import config from "@/config"
 import jsonwebtoken from "jsonwebtoken"
 
 const auth = async (ctx) => {
+  console.log("auth")
   const {
     models: { UserModel },
     req: {
@@ -12,6 +13,7 @@ const auth = async (ctx) => {
   } = ctx
 
   try {
+    console.log("sessionToken : ", sessionToken)
     const { payload } = jsonwebtoken.verify(
       sessionToken,
       config.security.jwt.secret,
@@ -23,6 +25,7 @@ const auth = async (ctx) => {
 
     await next()
   } catch (error) {
+    console.log("error : ", error)
     throw new ForbiddenError()
   }
 }

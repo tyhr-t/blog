@@ -1,3 +1,3 @@
-export const up = async (db) => {}
+export const up = async () => null
 
-export const down = async (db) => {}
+export const down = async () => null

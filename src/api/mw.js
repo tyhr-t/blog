@@ -4,11 +4,11 @@ import log from "@/api/middlewares/log"
 import methodNotAllowed from "@/api/middlewares/methodNotAllowed"
 import config from "@/config"
 import BaseModel from "@/db/models/BaseModel"
+import BlogCategoryModel from "@/db/models/BlogCategoryModel"
+import BlogModel from "@/db/models/BlogModel"
 import CategoryModel from "@/db/models/CategoryModel"
 import TodoModel from "@/db/models/TodoModel"
 import UserModel from "@/db/models/UserModel"
-import BlogModel from "@/db/models/BlogModel"
-import BlogCategoryModel from "@/db/models/BlogCategoryModel"
 import knex from "knex"
 import { NotFoundError as ObjectionNotFoundError } from "objection"
 
@@ -34,7 +34,6 @@ const mw = (handlers) => async (req, res) => {
     next: async () => {
       const middleware = sanitizedMiddlewares[currentMiddlewareIndex]
       currentMiddlewareIndex += 1
-
       await middleware(ctx)
     },
   }

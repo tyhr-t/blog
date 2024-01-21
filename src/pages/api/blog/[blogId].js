@@ -1,8 +1,11 @@
-import mw from "@/api/mw"
 import auth from "@/api/middlewares/auth"
+import getValidateRole from "@/api/middlewares/validateRole"
+import mw from "@/api/mw"
 
 const handle = mw({
   GET: [
+    auth,
+    getValidateRole(["admin", "author", "user"]),
     async ({
       models: { BlogModel },
       req: {
@@ -16,6 +19,7 @@ const handle = mw({
   ],
   PATCH: [
     auth,
+    getValidateRole(["admin", "author"]),
     async ({
       models: { BlogModel },
       req: {
@@ -36,6 +40,7 @@ const handle = mw({
   ],
   DELETE: [
     auth,
+    getValidateRole(["admin", "author"]),
     async ({
       models: { BlogModel },
       req: {
@@ -45,16 +50,6 @@ const handle = mw({
     }) => {
       await BlogModel.query().deleteById(blogId).throwIfNotFound()
       res.send({ message: "Blog deleted" })
-    },
-  ],
-  POST: [
-    auth,
-    async ({ models: { BlogModel }, req: { body }, res }) => {
-      const newBlog = await BlogModel.query().insertAndFetch({
-        ...body,
-      })
-
-      res.send(newBlog)
     },
   ],
 })

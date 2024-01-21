@@ -34,6 +34,7 @@ const Header = () => {
               <>
                 <MenuItem href="/blog/create">Create Post</MenuItem>
                 <MenuItem href="/blog">list Post</MenuItem>
+                <MenuItem href="/user">list User</MenuItem>
                 <MenuItem href="/blog">edit profile</MenuItem>
                 <li>
                   <Button

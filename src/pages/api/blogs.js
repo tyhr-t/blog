@@ -1,12 +1,14 @@
-import config from "@/web/config"
+import auth from "@/api/middlewares/auth"
 import { validate } from "@/api/middlewares/validate"
+import getValidateRole from "@/api/middlewares/validateRole"
 import mw from "@/api/mw"
 import {
-  pageValidator,
   contentBlogValidator,
-  titleBlogValidator,
   idValidator,
+  pageValidator,
+  titleBlogValidator,
 } from "@/utils/validators"
+import config from "@/web/config"
 
 const handle = mw({
   GET: [
@@ -40,6 +42,8 @@ const handle = mw({
     },
   ],
   POST: [
+    auth,
+    getValidateRole(["admin", "author"]),
     validate({
       body: {
         content: contentBlogValidator,

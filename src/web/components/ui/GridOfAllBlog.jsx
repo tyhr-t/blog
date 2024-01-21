@@ -1,3 +1,4 @@
+import Router from "next/router"
 const GridOfAllBlog = ({ blog }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 ">
     {blog.map((blogs) => (
@@ -15,11 +16,11 @@ const GridOfAllBlog = ({ blog }) => (
         </span>
         <button
           onClick={() => {
-            console.log(blogs.id)
+            Router.push(`/blog/${blogs.id}`)
           }}
           className="absolute top-2 right-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
         >
-          Edit
+          Show
         </button>
       </div>
     ))}

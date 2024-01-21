@@ -12,7 +12,7 @@ import config from "@/web/config"
 const handle = mw({
   POST: [
     auth,
-    // getValidateRole(["admin"]),
+    // GetValidateRole(["admin"]),
     validate({
       body: {
         description: todoDescriptionValidator,
@@ -52,7 +52,6 @@ const handle = mw({
         query: { page },
       },
     }) => {
-      console.log("GETTING TODOS")
       const query = TodoModel.query()
       const todos = await query
         .clone()
