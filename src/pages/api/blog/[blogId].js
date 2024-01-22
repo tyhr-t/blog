@@ -1,6 +1,8 @@
 import auth from "@/api/middlewares/auth"
+import { validate } from "@/api/middlewares/validate"
 import getValidateRole from "@/api/middlewares/validateRole"
 import mw from "@/api/mw"
+import { idValidator, todoDescriptionValidator } from "@/utils/validators"
 
 const handle = mw({
   GET: [
@@ -20,6 +22,15 @@ const handle = mw({
   PATCH: [
     auth,
     getValidateRole(["admin", "author"]),
+    validate({
+      query: {
+        blogId: idValidator,
+      },
+      body: {
+        title: todoDescriptionValidator.optional(),
+        content: todoDescriptionValidator.optional(),
+      },
+    }),
     async ({
       models: { BlogModel },
       req: {
