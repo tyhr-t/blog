@@ -1,7 +1,7 @@
 export const up = async (db) => {
   await db.schema.alterTable("users", (table) => {
     table
-      .enu("role", ["admin", "author", "user"])
+      .enu("role", ["admin", "author", "user", "disabled"])
       .notNullable()
       .defaultTo("user")
   })

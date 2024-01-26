@@ -1,3 +1,4 @@
+/* eslint-disable padding-line-between-statements */
 import { formatDateTimeShort } from "@/utils/formatters"
 import Loader from "@/web/components/ui/Loader"
 import Pagination from "@/web/components/ui/Pagination"
@@ -20,6 +21,8 @@ export const getServerSideProps = async ({ query: { page }, req }) => {
 const IndexPage = ({ initialData }) => {
   const { query } = useRouter()
   const page = Number.parseInt(query.page || 1, 10)
+
+  /* LE REFETCH */
   const {
     isFetching,
     data: {
@@ -33,15 +36,23 @@ const IndexPage = ({ initialData }) => {
     initialData,
     enabled: false,
   })
+  /*  */
+
+  /* LA MUTATION POUR LE TOGGLE  */
   const { mutateAsync: toggleTodo } = useMutation({
     mutationFn: (todo) =>
       apiClient.patch(`/todos/${todo.id}`, {
         isDone: !todo.isDone,
       }),
   })
+  /*  */
+
+  /*  LA MUTATION POUR LE DELETE */
   const { mutateAsync: deleteTodo } = useMutation({
     mutationFn: (todoId) => apiClient.delete(`/todos/${todoId}`),
   })
+  /*  */
+
   const handleClickToggle = (id) => async () => {
     const todo = todos.find(({ id: todoId }) => todoId === id)
     await toggleTodo(todo)
