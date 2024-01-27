@@ -51,7 +51,6 @@ const IndexPage = ({ initialData }) => {
   const { mutateAsync: deleteTodo } = useMutation({
     mutationFn: (todoId) => apiClient.delete(`/todos/${todoId}`),
   })
-  /*  */
 
   const handleClickToggle = (id) => async () => {
     const todo = todos.find(({ id: todoId }) => todoId === id)

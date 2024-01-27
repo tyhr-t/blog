@@ -1,8 +1,9 @@
 import Button from "@/web/components/ui/Button"
-import DeleteButton from "@/web/components/ui/DeleteButton"
 import Loader from "@/web/components/ui/Loader"
+import UserAdministrationRow from "@/web/components/ui/UserAdministrationRow"
 import apiClient from "@/web/services/apiClient"
 import { useMutation, useQuery } from "@tanstack/react-query"
+
 export const getServerSideProps = async ({ req }) => {
   const { cookie } = req.headers
   const data = await apiClient("/users", {
@@ -27,21 +28,34 @@ const UserListPage = ({ initialData }) => {
     queryKey: ["users"],
 
     queryFn: () => apiClient("/users"),
-
     initialData,
     enabled: false,
   })
   const { mutateAsync: deleteUser } = useMutation({
     mutationFn: (userId) => apiClient.delete(`/user/${userId}`),
   })
-  const { mutateAsync: updateUser } = useMutation({
-    mutationFn: (userId, role) =>
-      apiClient.patch(`/user/${userId}`, {
-        role,
-      }),
+  const { mutateAsync: updateUserRole } = useMutation({
+    mutationFn: ({ userId, role }) => {
+      console.log("role in mutationFn", userId, role)
+
+      return apiClient.patch(`/user/${userId}`, { role })
+    },
   })
-  const handleSelectRole = async (id, role) => {
-    await updateUser(id, role)
+  const { mutateAsync: updateUserEmail } = useMutation({
+    mutationFn: ({ userId, email }) => {
+      console.log("email in mutationFn", userId, email)
+
+      return apiClient.patch(`/user/${userId}`, { email })
+    },
+  })
+  const handleSaveEmailButton = async ({ userId, email }) => {
+    console.log("email in handleSaveEmailButton", userId, email)
+    await updateUserEmail({ userId, email })
+    await refetch()
+  }
+  const handleSelectRole = async ({ userId, role }) => {
+    console.log("role in handleSelectRole", userId, role)
+    await updateUserRole({ userId, role })
     await refetch()
   }
   const handleClickDelete = async (id) => {
@@ -62,28 +76,13 @@ const UserListPage = ({ initialData }) => {
         </thead>
         <tbody>
           {users?.map((user) => (
-            <tr key={user.id}>
-              <td className="border">{user.email}</td>
-              {/* <td className="border">{user.role}</td> */}
-
-              <td className="border">
-                <select
-                  onChange={(e) => handleSelectRole(user.id, e.target.value)}
-                  className="border"
-                  name="role"
-                  id="role"
-                >
-                  <option value="admin">admin</option>
-                  <option value="user">user</option>
-                  <option value="author">author</option>
-                  <option value="disabled">disabled</option>
-                </select>
-              </td>
-
-              <td className="border">
-                <DeleteButton handleClick={() => handleClickDelete(user.id)} />
-              </td>
-            </tr>
+            <UserAdministrationRow
+              key={user.id}
+              handleSelectRole={handleSelectRole}
+              handleClickDelete={handleClickDelete}
+              user={user}
+              handleSaveEmailButton={handleSaveEmailButton}
+            />
           ))}
         </tbody>
       </table>

@@ -1,6 +1,8 @@
 import { boolean, number, string } from "yup"
 
 export const emailValidator = string().email().required()
+export const userPatchEmailValidatior = string().email().notRequired()
+export const rolePatchValidator = string().notRequired()
 export const passwordValidator = string()
   .min(10)
   .matches(
@@ -15,3 +17,8 @@ export const idValidator = number().integer().min(1).required()
 export const pageValidator = number().integer().min(1).default(1).required()
 export const titleBlogValidator = string().required()
 export const contentBlogValidator = string().required()
+export const roleValidator = string().required()
+export const patchUserValidator = {
+  role: rolePatchValidator,
+  email: userPatchEmailValidatior,
+}
