@@ -9,14 +9,27 @@ const handle = mw({
     auth,
     getValidateRole(["admin", "author", "user"]),
     async ({
-      models: { BlogModel },
+      models: { BlogModel, CommentModel },
       req: {
         query: { blogId },
       },
       res,
     }) => {
       const blog = await BlogModel.query().findById(blogId).throwIfNotFound()
-      res.send(blog)
+
+      await BlogModel.query().updateAndFetchById(blogId, {
+        visits: blog.visits + 1,
+      })
+
+      const comments = await CommentModel.query()
+        .clone()
+        .where("blogId", blogId)
+        // .orderBy("createdAt", "DESC")
+        .withGraphFetched("users")
+      // .limit(config.ui.itemsPerPage)
+      // .offset((page - 1) * config.ui.itemsPerPage)
+
+      res.send({ blog, comments })
     },
   ],
   PATCH: [

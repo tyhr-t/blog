@@ -22,3 +22,5 @@ export const patchUserValidator = {
   role: rolePatchValidator,
   email: userPatchEmailValidatior,
 }
+export const contentCommentValidator = string().required()
+export const isPublicValidator = boolean().required()

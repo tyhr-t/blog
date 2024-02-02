@@ -1,3 +1,4 @@
+import WriteCommentSection from "@/web/components/ui/WriteCommentSection"
 import axios from "axios"
 import Router from "next/router"
 export const getServerSideProps = async ({ params }) => {
@@ -10,12 +11,17 @@ export const getServerSideProps = async ({ params }) => {
       blogID,
     },
   }
+
+  console.log(blog.data.result)
 }
 const ShowBlog = ({ blog }) => (
   <div>
+    {console.log(blog.visits)}
     <h1>{blog.title}</h1>
     <p>{blog.content}</p>
     <p>{blog.createdAt}</p>
+    <p> current visite : {blog.visits}</p>
+
     <button
       className="border border-gray-300 rounded p-2"
       onClick={() => {
@@ -24,7 +30,7 @@ const ShowBlog = ({ blog }) => (
     >
       edit that post ?{" "}
     </button>
-    <textarea placeholder="enter a comment" />
+    <WriteCommentSection blogId={blog.id}  handleSubmiting={} />
   </div>
 )
 

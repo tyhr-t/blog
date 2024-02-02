@@ -7,6 +7,7 @@ import BaseModel from "@/db/models/BaseModel"
 import BlogCategoryModel from "@/db/models/BlogCategoryModel"
 import BlogModel from "@/db/models/BlogModel"
 import CategoryModel from "@/db/models/CategoryModel"
+import CommentModel from "@/db/models/CommentModel"
 import TodoModel from "@/db/models/TodoModel"
 import UserModel from "@/db/models/UserModel"
 import knex from "knex"
@@ -28,6 +29,7 @@ const mw = (handlers) => async (req, res) => {
       UserModel,
       BlogModel,
       BlogCategoryModel,
+      CommentModel,
     },
     req,
     res,

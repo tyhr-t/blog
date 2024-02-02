@@ -14,11 +14,21 @@ const handle = mw({
     async ({
       models: { UserModel },
       input: {
-        query: { userId },
+        query: { userId, blogId },
       },
       res,
     }) => {
       const user = await UserModel.query().findById(userId).throwIfNotFound()
+
+      try {
+        if (blogId === userId) {
+          res.send(user)
+        } else {
+          res.send("erreur a mettre a partir des fichiers du prof")
+        }
+      } catch (error) {
+        console.log(error)
+      }
 
       res.send(user)
     },

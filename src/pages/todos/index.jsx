@@ -8,7 +8,7 @@ import { useRouter } from "next/router"
 
 export const getServerSideProps = async ({ query: { page }, req }) => {
   const cookies = req.headers.cookie
-  const data = await apiClient("/todos", {
+  const data = await apiClient("/blogs", {
     params: { page },
     headers: { Cookie: cookies },
   })

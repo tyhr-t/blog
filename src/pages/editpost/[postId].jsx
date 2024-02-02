@@ -4,8 +4,6 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { Formik } from "formik"
 
-
-
 const initialValues = {
   title: "",
   content: "",
@@ -52,11 +50,7 @@ const EditPost = ({ initialData, postId }) => {
   }
 
   return (
-
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-    >
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       <Form>
         <h1 className="text-3xl font-bold">Edit Post</h1>
         <FormField name="title" placeholder="Enter a title" />

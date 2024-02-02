@@ -1,9 +1,9 @@
-import { Formik } from "formik"
-import Form from "@/web/components/ui/Form"
 import BlogField from "@/web/components/ui/BlogField"
-import axios from "axios"
+import Form from "@/web/components/ui/Form"
 import FormField from "@/web/components/ui/FormField"
 import SelectCategory from "@/web/components/ui/SelectCategory"
+import axios from "axios"
+import { Formik } from "formik"
 export const getServerSideProps = async () => {
   const { data } = await axios.get("http://localhost:3000/api/blogCategories")
 
@@ -21,6 +21,7 @@ const create = ({ categories }) => {
     isPublic: true,
   }
   const handleSubmit = async (values) => {
+    console.log("values : ", values)
     await axios.post("http://localhost:3000/api/blogs", values)
   }
 

@@ -5,10 +5,10 @@ import mw from "@/api/mw"
 import {
   contentBlogValidator,
   idValidator,
+  isPublicValidator,
   pageValidator,
   titleBlogValidator,
 } from "@/utils/validators"
-import config from "@/web/config"
 
 const handle = mw({
   GET: [
@@ -17,27 +17,15 @@ const handle = mw({
         page: pageValidator.optional(),
       },
     }),
-    async ({
-      res,
-      models: { BlogModel },
-      input: {
-        query: { page },
-      },
-    }) => {
+    async ({ res, models: { BlogModel } }) => {
       const query = BlogModel.query()
       const blog = await query
         .clone()
         .withGraphFetched("category")
         .where("isPublic", true)
         .orderBy("createdAt", "DESC")
-        .limit(config.ui.itemsPerPage)
-        .offset((page - 1) * config.ui.itemsPerPage)
-      const [{ count }] = await query.clone().count()
       res.send({
         result: blog,
-        meta: {
-          count,
-        },
       })
     },
   ],
@@ -49,6 +37,7 @@ const handle = mw({
         content: contentBlogValidator,
         categoryId: idValidator,
         title: titleBlogValidator,
+        isPublic: isPublicValidator,
       },
     }),
     async ({
@@ -56,6 +45,7 @@ const handle = mw({
       input: {
         body: { content, title, categoryId, isPublic },
       },
+      session: { id },
       res,
     }) => {
       const blog = await BlogModel.query()
@@ -64,6 +54,7 @@ const handle = mw({
           categoryId,
           title,
           isPublic,
+          ownerId: id,
         })
         .withGraphFetched("category")
       res.send(blog)

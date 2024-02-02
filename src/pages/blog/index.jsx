@@ -11,6 +11,7 @@ export const getServerSideProps = async () => {
 }
 const index = ({ blog }) => (
   <div className="  ">
+    {console.log("blog : ", blog)}
     <GridOfAllBlog blog={blog} />
   </div>
 )

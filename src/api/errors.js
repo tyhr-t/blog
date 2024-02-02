@@ -23,7 +23,7 @@ export class NotFoundError extends PublicError {
 export class UnauthorizedError extends PublicError {
   httpCode = HTTP_ERRORS.UNAUTHORIZED
 
-  constructor(message = "Wrong credentials") {
+  constructor(message = "You're not connected") {
     super(message)
   }
 }

@@ -8,11 +8,11 @@ const GridOfAllBlog = ({ blog }) => (
       >
         <div className="bg-transparent rounded-full text-xs px-2 py-1 mb-2">
           <span className="inline-block bg-gray-200 rounded-full px-2 py-1 text-sm font-semibold text-gray-700 mr-2">
-            {blogs.category.name}
+            {blogs.title}
           </span>
         </div>
         <span className="text-2xl text-gray-800">
-          {`${blogs.title.slice(0, 7).toUpperCase()}...`}
+          {`${blogs.content.slice(0, 7).toUpperCase()}...`}
         </span>
         <button
           onClick={() => {
