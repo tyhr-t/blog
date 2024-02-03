@@ -17,7 +17,6 @@ const handle = mw({
         email: user.email,
         role: user.role,
         id: user.id,
-        PASSWORD: user.passwordHash, // A RETIRER
       })
     },
   ],
@@ -57,6 +56,7 @@ const handle = mw({
           oldPassword,
           session.passwordSalt,
         )
+
         if (hash !== session.passwordHash) {
           throw new Error("Unauthorized")
         }

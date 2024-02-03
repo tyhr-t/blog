@@ -1,6 +1,7 @@
 import Router from "next/router"
 const GridOfAllPost = ({ post }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 ">
+    {post.length === 0 && <p>No post found</p>}
     {post.map((posts) => (
       <div
         key={posts.id}

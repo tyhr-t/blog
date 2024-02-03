@@ -26,18 +26,10 @@ const data = {
     },
   },
 }
-const config = (() => {
-  try {
-    return validationSchema.validateSync(data, {
-      stripUnknown: true,
-      abortEarly: false,
-    })
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-  }
-
-  return null
-})()
+const config = (() =>
+  validationSchema.validateSync(data, {
+    stripUnknown: true,
+    abortEarly: false,
+  }))()
 
 export default config

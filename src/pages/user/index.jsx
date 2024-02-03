@@ -1,27 +1,35 @@
 import Button from "@/web/components/ui/Button"
-import Loader from "@/web/components/ui/Loader"
 import UserAdministrationRow from "@/web/components/ui/UserAdministrationRow"
 import apiClient from "@/web/services/apiClient"
 import { useMutation, useQuery } from "@tanstack/react-query"
 
 export const getServerSideProps = async ({ req }) => {
   const { cookie } = req.headers
-  const data = await apiClient("/users", {
-    headers: {
-      Cookie: cookie,
-    },
-  })
 
-  return {
-    props: {
-      initialData: data,
-    },
+  try {
+    const data = await apiClient("/users", {
+      headers: {
+        Cookie: cookie,
+      },
+    })
+
+    return {
+      props: {
+        initialData: data,
+      },
+    }
+  } catch (error) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    }
   }
 }
 // eslint-disable-next-line max-lines-per-function
 const UserListPage = ({ initialData }) => {
   const {
-    isLoading,
     data: { result: users },
     refetch,
   } = useQuery({
@@ -35,14 +43,12 @@ const UserListPage = ({ initialData }) => {
     mutationFn: (userId) => apiClient.delete(`/user/${userId}`),
   })
   const { mutateAsync: updateUserRole } = useMutation({
-    mutationFn: ({ userId, role }) => {
-      return apiClient.patch(`/user/${userId}`, { role })
-    },
+    mutationFn: ({ userId, role }) =>
+      apiClient.patch(`/user/${userId}`, { role }),
   })
   const { mutateAsync: updateUserEmail } = useMutation({
-    mutationFn: ({ userId, email }) => {
-      return apiClient.patch(`/user/${userId}`, { email })
-    },
+    mutationFn: ({ userId, email }) =>
+      apiClient.patch(`/user/${userId}`, { email }),
   })
   const handleSaveEmailButton = async ({ userId, email }) => {
     await updateUserEmail({ userId, email })
@@ -59,7 +65,6 @@ const UserListPage = ({ initialData }) => {
 
   return (
     <div className="relative">
-      {isLoading && <Loader />}
       <table className="w-full">
         <thead>
           <tr>

@@ -1,5 +1,3 @@
-import { HTTP_ERRORS } from "@/api/constants"
-import { NotFoundError, PublicError } from "@/api/errors"
 import log from "@/api/middlewares/log"
 import methodNotAllowed from "@/api/middlewares/methodNotAllowed"
 import config from "@/config"
@@ -8,19 +6,8 @@ import CommentModel from "@/db/models/CommentModel"
 import PostModel from "@/db/models/PostModel"
 import UserModel from "@/db/models/UserModel"
 import knex from "knex"
-import { NotFoundError as ObjectionNotFoundError } from "objection"
 
 const mw = (handlers) => async (req, res) => {
-  console.log("\n_____________________________________")
-  console.log(
-    "MIDDLEWARE - REQUEST ",
-    req.method,
-    req.url,
-    req.body,
-    req.query,
-    req.params,
-    "\n",
-  )
   const middlewares = handlers[req.method]
   const sanitizedMiddlewares = [log, ...(middlewares || [methodNotAllowed])]
   let currentMiddlewareIndex = 0
@@ -45,25 +32,9 @@ const mw = (handlers) => async (req, res) => {
   }
 
   try {
-    console.log("MW IS CALLING NEXT")
-
     await ctx.next()
   } catch (err) {
-    const error =
-      err instanceof ObjectionNotFoundError ? new NotFoundError() : err
-
-    if (!(error instanceof PublicError)) {
-      // eslint-disable-next-line no-console
-      // console.error(error)
-
-      res
-        .status(HTTP_ERRORS.INTERNAL_SERVER_ERROR)
-        .send({ error: "Something went wrong." })
-
-      return
-    }
-
-    res.status(error.httpCode).send({ error })
+    res.status(500).send(err.message)
   } finally {
     await db.destroy()
   }

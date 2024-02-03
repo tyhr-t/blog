@@ -24,10 +24,8 @@ const handle = mw({
       const comments = await CommentModel.query()
         .clone()
         .where("postId", postId)
-        // .orderBy("createdAt", "DESC")
+        .orderBy("createdAt", "DESC")
         .withGraphFetched("users")
-      // .limit(config.ui.itemsPerPage)
-      // .offset((page - 1) * config.ui.itemsPerPage)
 
       res.send({ post, comments })
     },
@@ -40,8 +38,8 @@ const handle = mw({
         postId: idValidator,
       },
       body: {
-        title: contentValidator.optional(),
-        content: contentValidator.optional(),
+        title: contentValidator,
+        content: contentValidator,
       },
     }),
     async ({

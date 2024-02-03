@@ -9,6 +9,9 @@ export const up = async (db) => {
     table.integer("postId").notNullable()
     table.foreign("postId").references("id").inTable("posts")
 
+    table.timestamp("createdAt").defaultTo(db.fn.now())
+    table.timestamp("updatedAt").defaultTo(db.fn.now())
+
     table.timestamps(true, true)
   })
 }

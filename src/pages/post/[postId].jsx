@@ -1,10 +1,11 @@
+import CommentView from "@/web/components/ui/CommentView"
 import Form from "@/web/components/ui/Form"
 import FormField from "@/web/components/ui/FormField"
+import SubmitButton from "@/web/components/ui/SubmitButton"
 import apiClient from "@/web/services/apiClient"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { Formik } from "formik"
 import { useRouter } from "next/router"
-
 export const getServerSideProps = async ({ params, req }) => {
   const postID = params.postId
   const { cookie } = req.headers
@@ -20,12 +21,10 @@ export const getServerSideProps = async ({ params, req }) => {
     },
   }
 }
-
 const ShowPost = ({ initialData }) => {
-  const { query } = useRouter()
-
+  const router = useRouter()
+  const { query } = router
   const {
-    isFetching,
     data: { post, comments },
     refetch,
   } = useQuery({
@@ -34,7 +33,6 @@ const ShowPost = ({ initialData }) => {
     initialData,
     enabled: false,
   })
-
   const { mutateAsync: postComment } = useMutation({
     mutationFn: ({ postId, content }) =>
       apiClient.post(`/comments`, {
@@ -42,7 +40,6 @@ const ShowPost = ({ initialData }) => {
         content,
       }),
   })
-
   const handleSubmit = async (values, { resetForm }) => {
     await postComment({ postId: post.id, content: values.content })
     await refetch()
@@ -59,31 +56,20 @@ const ShowPost = ({ initialData }) => {
         <Form>
           <FormField name="content" label="Comment" />
 
-          <button
-            className="px-3 py-2 bg-blue-600 active:bg-blue-700 text-2xl text-white"
-            type="submit"
-          >
-            Enregistrer le commentaire
-          </button>
+          <SubmitButton>Enregistrer le commentaire</SubmitButton>
         </Form>
       </Formik>
 
       <button
         className="border border-gray-300 rounded p-2"
-        onClick={() => {
-          Router.push(`/editpost/${post.id}`)
-        }}
+        onClick={() => router.push(`/editpost/${post.id}`)}
       >
         edit that post ?
       </button>
 
       <h2 className="text-2xl font-bold mt-8 mb-4">List of Comments</h2>
       {comments.map((comment) => (
-        <div key={comment.id} className="bg-gray-100 p-4 mb-4">
-          <p className="text-blue-500 font-bold">{comment.userId.email}</p>
-          <p className="text-gray-800">{comment.content}</p>
-          <p className="text-gray-500">{comment.createdAt}</p>
-        </div>
+        <CommentView key={comment.id} comment={comment} />
       ))}
     </div>
   )

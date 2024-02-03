@@ -24,6 +24,7 @@ const handle = mw({
         .clone()
         .where("isPublic", true)
         .orderBy("createdAt", "DESC")
+
       res.send({
         result: post,
       })

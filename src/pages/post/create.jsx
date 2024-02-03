@@ -4,27 +4,35 @@ import PostField from "@/web/components/ui/PostField"
 import apiClient from "@/web/services/apiClient"
 import { Formik } from "formik"
 export const getServerSideProps = async ({ req }) => {
-  const cookie = req.headers.cookie
-  const data = await apiClient("/postCategories", {
-    headers: {
-      Cookie: cookie,
-    },
-  })
+  const { cookie } = req.headers
+
+  try {
+    await apiClient("/post/authorizeAuthor", {
+      headers: {
+        Cookie: cookie,
+      },
+    })
+  } catch (error) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    }
+  }
 
   return {
-    props: {
-      categories: data.result,
-    },
+    props: {},
   }
 }
-const create = ({ categories }) => {
+const create = () => {
   const initialValues = {
     title: "",
     content: "",
     isPublic: true,
   }
   const handleSubmit = async (values) => {
-    await axios.post("http://localhost:3000/api/posts", values)
+    await apiClient.post("/posts", values)
   }
 
   return (

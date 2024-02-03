@@ -8,18 +8,16 @@ export const getServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      dashboardStats: dashboardStats,
+      dashboardStats,
     },
   }
 }
-const Dashboard = ({ dashboardStats }) => {
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>my Posts count : {dashboardStats.posts}</p>
-      <p>my Comments count : {dashboardStats.comments}</p>
-    </div>
-  )
-}
+const Dashboard = ({ dashboardStats }) => (
+  <div>
+    <h1>Dashboard</h1>
+    <p>my Posts count : {dashboardStats.posts}</p>
+    <p>my Comments count : {dashboardStats.comments}</p>
+  </div>
+)
 
 export default Dashboard

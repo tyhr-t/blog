@@ -1,4 +1,5 @@
 import FormField from "@/web/components/ui/FormField"
+import SubmitButton from "@/web/components/ui/SubmitButton"
 import apiClient from "@/web/services/apiClient"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { Form, Formik } from "formik"
@@ -6,13 +7,12 @@ import { Form, Formik } from "formik"
 const emailFormInitialValues = {
   email: "",
 }
-
 const passwordFormInitialValues = {
   password: "",
   oldPassword: "",
 }
 
-export const getServerSideProps = async ({ params, req }) => {
+export const getServerSideProps = async ({ req }) => {
   const { cookie } = req.headers
   const user = await apiClient(`/user/editprofile`, {
     headers: {
@@ -27,9 +27,8 @@ export const getServerSideProps = async ({ params, req }) => {
   }
 }
 const EditProfile = ({ initialData }) => {
-  // eslint-disable-next-line no-empty-pattern
   const {
-    data: { id, email, role, PASSWORD },
+    data: { id, email, role },
     refetch,
   } = useQuery({
     queryKey: ["user"],
@@ -37,11 +36,9 @@ const EditProfile = ({ initialData }) => {
     initialData,
     enabled: false,
   })
-
   const { mutateAsync: editProfile } = useMutation({
     mutationFn: (data) => apiClient.patch(`/user/editprofile`, data),
   })
-
   const handleSubmit = async (values, { resetForm }) => {
     await editProfile({ ...values, id })
     await refetch()
@@ -53,19 +50,12 @@ const EditProfile = ({ initialData }) => {
       <h1 className="text-3xl font-bold">Edit Profile</h1>
       <p>Vous avez le rôle : {role}</p>
       <p>Votre email actuel est : {email}</p>
-      <p>HASH ACTUEL : {PASSWORD}</p>
 
       <Formik initialValues={emailFormInitialValues} onSubmit={handleSubmit}>
         <Form>
           <h2 className="text-2xl font-bold">Change your email</h2>
           <FormField name="email" placeholder="Enter a  new email" />
-
-          <button
-            type="submit"
-            className="px-3 py-2 bg-blue-600 active:bg-blue-700 text-2xl text-white"
-          >
-            Submit
-          </button>
+          <SubmitButton>Submit</SubmitButton>
         </Form>
       </Formik>
 

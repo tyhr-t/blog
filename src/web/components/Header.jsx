@@ -19,6 +19,8 @@ const MenuItem = ({ children, href, ...otherProps }) => (
 )
 const Header = () => {
   const { session, signOut } = useSession()
+  const canCreatePost =
+    session && (session.role === "author" || session.role === "admin")
 
   return (
     <header className="border-b-2 bg-slate-300">
@@ -30,11 +32,15 @@ const Header = () => {
         </div>
         <nav className="ms-auto">
           <ul className="flex h-full gap-4 items-center">
-            {session ? (
+            {session && session.role !== "disabled" ? (
               <>
-                <MenuItem href="/post/create">Create Post</MenuItem>
+                {canCreatePost && (
+                  <MenuItem href="/post/create">Create Post</MenuItem>
+                )}
                 <MenuItem href="/post">list Post</MenuItem>
-                <MenuItem href="/user">list user</MenuItem>
+                {session.role === "admin" && (
+                  <MenuItem href="/user">list user</MenuItem>
+                )}
                 <MenuItem href="/profile">edit Profile</MenuItem>
                 <MenuItem href="/dashboard">My Dashboard</MenuItem>
 

@@ -1,5 +1,5 @@
-const IndexPage = () => {
-  return <div className="relative">Welcome to the post editor</div>
-}
+const IndexPage = () => (
+  <div className="relative">Welcome to the post editor</div>
+)
 
 export default IndexPage
