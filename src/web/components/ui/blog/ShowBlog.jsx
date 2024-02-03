@@ -1,4 +1,4 @@
-import WriteCommentSection from "@/web/components/ui/WriteCommentSection"
+import WriteCommentSection from "@/web/components/ui/comment/WriteCommentSection"
 import axios from "axios"
 import Router from "next/router"
 export const getServerSideProps = async ({ params }) => {
@@ -12,11 +12,9 @@ export const getServerSideProps = async ({ params }) => {
     },
   }
 
-  console.log(blog.data.result)
 }
 const ShowBlog = ({ blog }) => (
   <div>
-    {console.log(blog.visits)}
     <h1>{blog.title}</h1>
     <p>{blog.content}</p>
     <p>{blog.createdAt}</p>

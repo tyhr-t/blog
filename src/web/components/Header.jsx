@@ -34,10 +34,10 @@ const Header = () => {
               <>
                 <MenuItem href="/blog/create">Create Post</MenuItem>
                 <MenuItem href="/blog">list Post</MenuItem>
-
-                <MenuItem href="/blog">edit profile</MenuItem>
                 <MenuItem href="/user">list user</MenuItem>
-                <MenuItem href="/">My Dashboard</MenuItem>
+                <MenuItem href="/profile">edit Profile</MenuItem>
+                <MenuItem href="/dashboard">My Dashboard</MenuItem>
+
                 <li>
                   <Button
                     variant="transparent"

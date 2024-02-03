@@ -1,4 +1,4 @@
-import WriteCommentSection from "@/web/components/ui/WriteCommentSection"
+import WriteCommentSection from "@/web/components/ui/comment/WriteCommentSection"
 export default function CommentSection({ initialValues, handleSubmiting }) {
   return (
     <>

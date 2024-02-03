@@ -1,6 +1,6 @@
 import Button from "@/web/components/ui/Button"
 import Loader from "@/web/components/ui/Loader"
-import UserAdministrationRow from "@/web/components/ui/UserAdministrationRow"
+import UserAdministrationRow from "@/web/components/ui/user/UserAdministrationRow"
 import apiClient from "@/web/services/apiClient"
 import { useMutation, useQuery } from "@tanstack/react-query"
 
@@ -36,25 +36,19 @@ const UserListPage = ({ initialData }) => {
   })
   const { mutateAsync: updateUserRole } = useMutation({
     mutationFn: ({ userId, role }) => {
-      console.log("role in mutationFn", userId, role)
-
       return apiClient.patch(`/user/${userId}`, { role })
     },
   })
   const { mutateAsync: updateUserEmail } = useMutation({
     mutationFn: ({ userId, email }) => {
-      console.log("email in mutationFn", userId, email)
-
       return apiClient.patch(`/user/${userId}`, { email })
     },
   })
   const handleSaveEmailButton = async ({ userId, email }) => {
-    console.log("email in handleSaveEmailButton", userId, email)
     await updateUserEmail({ userId, email })
     await refetch()
   }
   const handleSelectRole = async ({ userId, role }) => {
-    console.log("role in handleSelectRole", userId, role)
     await updateUserRole({ userId, role })
     await refetch()
   }

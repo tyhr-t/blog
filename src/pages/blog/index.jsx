@@ -1,17 +1,21 @@
-import GridOfAllBlog from "@/web/components/ui/GridOfAllBlog"
-import axios from "axios"
-export const getServerSideProps = async () => {
-  const blog = await axios.get("http://localhost:3000/api/blogs")
+import GridOfAllBlog from "@/web/components/ui/blog/GridOfAllBlog"
+import apiClient from "@/web/services/apiClient"
+export const getServerSideProps = async ({ req }) => {
+  const cookie = req.headers.cookie
+  const blog = await apiClient("http://localhost:3000/api/blogs", {
+    headers: {
+      Cookie: cookie,
+    },
+  })
 
   return {
     props: {
-      blog: blog.data.result,
+      blog: blog.result,
     },
   }
 }
 const index = ({ blog }) => (
-  <div className="  ">
-    {console.log("blog : ", blog)}
+  <div>
     <GridOfAllBlog blog={blog} />
   </div>
 )

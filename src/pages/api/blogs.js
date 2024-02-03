@@ -12,6 +12,8 @@ import {
 
 const handle = mw({
   GET: [
+    auth,
+    getValidateRole(["admin", "author", "user"]),
     validate({
       query: {
         page: pageValidator.optional(),

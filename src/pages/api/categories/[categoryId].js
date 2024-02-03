@@ -1,7 +1,9 @@
+import auth from "@/api/middlewares/auth"
 import mw from "@/api/mw"
 
 const handle = mw({
   GET: [
+    auth,
     async ({
       models: { CategoryModel },
       req: {
@@ -17,6 +19,7 @@ const handle = mw({
     },
   ],
   PATCH: [
+    auth,
     async ({
       models: { CategoryModel },
       req: {
@@ -36,6 +39,7 @@ const handle = mw({
     },
   ],
   DELETE: [
+    auth,
     async ({
       models: { TodoModel, CategoryModel },
       req: {

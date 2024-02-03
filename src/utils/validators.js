@@ -1,15 +1,21 @@
 import { boolean, number, string } from "yup"
 
-export const emailValidator = string().email().required()
+export const emailValidatorBase = string().email()
+export const emailValidator = emailValidatorBase.required()
+export const optionalEmailValidator = emailValidatorBase.notRequired()
+
 export const userPatchEmailValidatior = string().email().notRequired()
 export const rolePatchValidator = string().notRequired()
-export const passwordValidator = string()
+
+export const passwordValidatorBase = string()
   .min(10)
   .matches(
     /^(?=.*\p{Ll})(?=.*\p{Lu})(?=.*\d)(?=.*[^\p{L}\d)]).*$/gu,
     "Password must contain 1 upper & 1 lower letter, 1 digit and 1 spe. char.",
   )
-  .required()
+export const passwordValidator = passwordValidatorBase.required()
+export const optionalPasswordValidator = passwordValidatorBase.notRequired()
+
 export const todoDescriptionValidator = string().min(8).required()
 export const categoryNameValidator = string().min(8).required()
 export const statusValidator = boolean().required()

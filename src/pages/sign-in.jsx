@@ -25,10 +25,11 @@ const SignUpPage = () => {
     mutationFn: (values) => apiClient.post("/sessions", values),
   })
   const handleSubmit = async (values) => {
+    console.log("HANDLE SUBMIT")
     const { result: jwt } = await mutateAsync(values)
-
+    console.log("JWT", jwt)
     saveSessionToken(jwt)
-
+    console.log("TOKEN SAVED, PUSHING")
     router.push("/")
   }
 

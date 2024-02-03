@@ -7,6 +7,7 @@ export const validate =
       req: { query, body },
       next,
     } = ctx
+
     const validationSchema = object({
       ...(bodyShape ? { body: object(bodyShape).noUnknown() } : {}),
       ...(queryShape ? { query: object(queryShape).noUnknown() } : {}),

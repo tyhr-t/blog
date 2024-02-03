@@ -1,3 +1,4 @@
+import auth from "@/api/middlewares/auth"
 import { validate } from "@/api/middlewares/validate"
 import mw from "@/api/mw"
 import { categoryNameValidator, pageValidator } from "@/utils/validators"
@@ -5,6 +6,7 @@ import config from "@/web/config"
 
 const handle = mw({
   POST: [
+    auth,
     validate({
       body: {
         name: categoryNameValidator,
@@ -23,6 +25,7 @@ const handle = mw({
     },
   ],
   GET: [
+    auth,
     validate({
       query: {
         page: pageValidator.optional(),

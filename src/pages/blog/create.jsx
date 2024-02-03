@@ -1,11 +1,15 @@
 import BlogField from "@/web/components/ui/BlogField"
 import Form from "@/web/components/ui/Form"
 import FormField from "@/web/components/ui/FormField"
-import SelectCategory from "@/web/components/ui/SelectCategory"
-import axios from "axios"
+import apiClient from "@/web/services/apiClient"
 import { Formik } from "formik"
-export const getServerSideProps = async () => {
-  const { data } = await axios.get("http://localhost:3000/api/blogCategories")
+export const getServerSideProps = async ({ req }) => {
+  const cookie = req.headers.cookie
+  const data = await apiClient("/blogCategories", {
+    headers: {
+      Cookie: cookie,
+    },
+  })
 
   return {
     props: {
@@ -21,15 +25,12 @@ const create = ({ categories }) => {
     isPublic: true,
   }
   const handleSubmit = async (values) => {
-    console.log("values : ", values)
     await axios.post("http://localhost:3000/api/blogs", values)
   }
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       <Form>
-        <h1 className="text-2xl">Select a category for the blog 🤔 </h1>
-        <SelectCategory name="categoryId" categories={categories} />
         <h1 className="text-2xl text-black"> Write a title ⬇️</h1>
         <FormField name="title" placeholder="Enter a title" />
         <h1 className="text-2xl text-black"> Write a content ⬇️</h1>

@@ -77,11 +77,12 @@ const ShowBlog = ({ initialData }) => {
         edit that post ?
       </button>
 
+      <h2 className="text-2xl font-bold mt-8 mb-4">List of Comments</h2>
       {comments.map((comment) => (
-        <div key={comment.id}>
-          <p>{comment.userId.email}</p>
-          <p>{comment.content}</p>
-          <p>{comment.createdAt}</p>
+        <div key={comment.id} className="bg-gray-100 p-4 mb-4">
+          <p className="text-blue-500 font-bold">{comment.userId.email}</p>
+          <p className="text-gray-800">{comment.content}</p>
+          <p className="text-gray-500">{comment.createdAt}</p>
         </div>
       ))}
     </div>

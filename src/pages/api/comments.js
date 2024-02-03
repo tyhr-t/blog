@@ -21,13 +21,28 @@ const handle = mw({
       session,
       res,
     }) => {
-      console.log("JE SUIS LA ROUTE")
       const comment = await CommentModel.query().insert({
         content,
         blogId,
         userId: session.id,
       })
       res.send({ result: comment })
+    },
+  ],
+  GET: [
+    auth,
+    getValidateRole(["admin", "author", "user"]),
+    async ({
+      models: { CommentModel },
+      input: {
+        query: { blogId },
+      },
+      res,
+    }) => {
+      const comments = await CommentModel.query()
+        .where("blogId", blogId)
+        .withGraphFetched("users")
+      res.send({ result: comments })
     },
   ],
 })

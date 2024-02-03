@@ -9,6 +9,7 @@ import {
 
 const handle = mw({
   GET: [
+    auth,
     validate({
       query: {
         todoId: idValidator,

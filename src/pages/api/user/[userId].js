@@ -6,6 +6,8 @@ import { idValidator, patchUserValidator } from "@/utils/validators"
 
 const handle = mw({
   GET: [
+    auth,
+    getvalidateRole(["admin"]),
     validate({
       query: {
         userId: idValidator,
@@ -14,21 +16,11 @@ const handle = mw({
     async ({
       models: { UserModel },
       input: {
-        query: { userId, blogId },
+        query: { userId },
       },
       res,
     }) => {
       const user = await UserModel.query().findById(userId).throwIfNotFound()
-
-      try {
-        if (blogId === userId) {
-          res.send(user)
-        } else {
-          res.send("erreur a mettre a partir des fichiers du prof")
-        }
-      } catch (error) {
-        console.log(error)
-      }
 
       res.send(user)
     },
@@ -66,13 +58,12 @@ const handle = mw({
       models: { UserModel },
       input: {
         query: { userId },
-        body: { role, email },
+        body: { email },
       },
       res,
     }) => {
       const user = await UserModel.query()
         .patchAndFetchById(userId, {
-          role,
           email,
         })
         .throwIfNotFound()
