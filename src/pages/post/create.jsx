@@ -21,7 +21,6 @@ const create = ({ categories }) => {
   const initialValues = {
     title: "",
     content: "",
-    categoryId: categories[0].id,
     isPublic: true,
   }
   const handleSubmit = async (values) => {

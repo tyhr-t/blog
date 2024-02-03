@@ -4,11 +4,8 @@ import log from "@/api/middlewares/log"
 import methodNotAllowed from "@/api/middlewares/methodNotAllowed"
 import config from "@/config"
 import BaseModel from "@/db/models/BaseModel"
-import CategoryModel from "@/db/models/CategoryModel"
 import CommentModel from "@/db/models/CommentModel"
-import PostCategoryModel from "@/db/models/PostCategoryModel"
 import PostModel from "@/db/models/PostModel"
-import TodoModel from "@/db/models/TodoModel"
 import UserModel from "@/db/models/UserModel"
 import knex from "knex"
 import { NotFoundError as ObjectionNotFoundError } from "objection"
@@ -34,11 +31,8 @@ const mw = (handlers) => async (req, res) => {
   const ctx = {
     db,
     models: {
-      TodoModel,
-      CategoryModel,
       UserModel,
       PostModel,
-      PostCategoryModel,
       CommentModel,
     },
     req,

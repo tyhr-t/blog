@@ -1,6 +1,6 @@
 import Button from "@/web/components/ui/Button"
 import Loader from "@/web/components/ui/Loader"
-import UserAdministrationRow from "@/web/components/ui/user/UserAdministrationRow"
+import UserAdministrationRow from "@/web/components/ui/UserAdministrationRow"
 import apiClient from "@/web/services/apiClient"
 import { useMutation, useQuery } from "@tanstack/react-query"
 

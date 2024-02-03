@@ -4,7 +4,6 @@ import getValidateRole from "@/api/middlewares/validateRole"
 import mw from "@/api/mw"
 import {
   contentPostValidator,
-  idValidator,
   isPublicValidator,
   pageValidator,
   titlePostValidator,
@@ -23,7 +22,6 @@ const handle = mw({
       const query = PostModel.query()
       const post = await query
         .clone()
-        .withGraphFetched("category")
         .where("isPublic", true)
         .orderBy("createdAt", "DESC")
       res.send({
@@ -37,7 +35,6 @@ const handle = mw({
     validate({
       body: {
         content: contentPostValidator,
-        categoryId: idValidator,
         title: titlePostValidator,
         isPublic: isPublicValidator,
       },
@@ -45,20 +42,17 @@ const handle = mw({
     async ({
       models: { PostModel },
       input: {
-        body: { content, title, categoryId, isPublic },
+        body: { content, title, isPublic },
       },
       session: { id },
       res,
     }) => {
-      const post = await PostModel.query()
-        .insertAndFetch({
-          content,
-          categoryId,
-          title,
-          isPublic,
-          ownerId: id,
-        })
-        .withGraphFetched("category")
+      const post = await PostModel.query().insertAndFetch({
+        content,
+        title,
+        isPublic,
+        ownerId: id,
+      })
       res.send(post)
     },
   ],

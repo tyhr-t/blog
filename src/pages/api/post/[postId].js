@@ -2,7 +2,7 @@ import auth from "@/api/middlewares/auth"
 import { validate } from "@/api/middlewares/validate"
 import getValidateRole from "@/api/middlewares/validateRole"
 import mw from "@/api/mw"
-import { idValidator, todoDescriptionValidator } from "@/utils/validators"
+import { contentValidator, idValidator } from "@/utils/validators"
 
 const handle = mw({
   GET: [
@@ -40,8 +40,8 @@ const handle = mw({
         postId: idValidator,
       },
       body: {
-        title: todoDescriptionValidator.optional(),
-        content: todoDescriptionValidator.optional(),
+        title: contentValidator.optional(),
+        content: contentValidator.optional(),
       },
     }),
     async ({

@@ -1,4 +1,4 @@
-import GridOfAllPost from "@/web/components/ui/post/GridOfAllPost"
+import GridOfAllPost from "@/web/components/ui/GridOfAllPost"
 import apiClient from "@/web/services/apiClient"
 export const getServerSideProps = async ({ req }) => {
   const cookie = req.headers.cookie
