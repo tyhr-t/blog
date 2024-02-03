@@ -1,5 +1,5 @@
 import BaseModel from "@/db/models/BaseModel"
-import BlogModel from "./BlogModel"
+import PostModel from "./PostModel"
 import UserModel from "./UserModel"
 
 export default class CommentModel extends BaseModel {
@@ -14,12 +14,12 @@ export default class CommentModel extends BaseModel {
         to: "users.id",
       },
     },
-    blogs: {
+    posts: {
       relation: BaseModel.BelongsToOneRelation,
-      modelClass: BlogModel,
+      modelClass: PostModel,
       join: {
-        from: "comments.blogId",
-        to: "blogs.id",
+        from: "comments.postId",
+        to: "posts.id",
       },
     },
   }

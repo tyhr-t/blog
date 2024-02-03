@@ -1,7 +1,7 @@
 import clsx from "clsx"
 import { useField } from "formik"
 
-const BlogField = ({ name, label, className, ...otherProps }) => {
+const PostField = ({ name, label, className, ...otherProps }) => {
   const [field, { error, touched }] = useField(name)
   const hasError = Boolean(error && touched)
 
@@ -13,4 +13,4 @@ const BlogField = ({ name, label, className, ...otherProps }) => {
     </label>
   )
 }
-export default BlogField
+export default PostField

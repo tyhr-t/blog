@@ -4,16 +4,26 @@ import log from "@/api/middlewares/log"
 import methodNotAllowed from "@/api/middlewares/methodNotAllowed"
 import config from "@/config"
 import BaseModel from "@/db/models/BaseModel"
-import BlogCategoryModel from "@/db/models/BlogCategoryModel"
-import BlogModel from "@/db/models/BlogModel"
 import CategoryModel from "@/db/models/CategoryModel"
 import CommentModel from "@/db/models/CommentModel"
+import PostCategoryModel from "@/db/models/PostCategoryModel"
+import PostModel from "@/db/models/PostModel"
 import TodoModel from "@/db/models/TodoModel"
 import UserModel from "@/db/models/UserModel"
 import knex from "knex"
 import { NotFoundError as ObjectionNotFoundError } from "objection"
 
 const mw = (handlers) => async (req, res) => {
+  console.log("\n_____________________________________")
+  console.log(
+    "MIDDLEWARE - REQUEST ",
+    req.method,
+    req.url,
+    req.body,
+    req.query,
+    req.params,
+    "\n",
+  )
   const middlewares = handlers[req.method]
   const sanitizedMiddlewares = [log, ...(middlewares || [methodNotAllowed])]
   let currentMiddlewareIndex = 0
@@ -27,8 +37,8 @@ const mw = (handlers) => async (req, res) => {
       TodoModel,
       CategoryModel,
       UserModel,
-      BlogModel,
-      BlogCategoryModel,
+      PostModel,
+      PostCategoryModel,
       CommentModel,
     },
     req,
@@ -41,6 +51,8 @@ const mw = (handlers) => async (req, res) => {
   }
 
   try {
+    console.log("MW IS CALLING NEXT")
+
     await ctx.next()
   } catch (err) {
     const error =

@@ -6,9 +6,9 @@ import { Formik } from "formik"
 import { useRouter } from "next/router"
 
 export const getServerSideProps = async ({ params, req }) => {
-  const blogID = params.blogId
+  const postID = params.postId
   const { cookie } = req.headers
-  const data = await apiClient(`/blog/${blogID}`, {
+  const data = await apiClient(`/post/${postID}`, {
     headers: {
       Cookie: cookie,
     },
@@ -21,40 +21,40 @@ export const getServerSideProps = async ({ params, req }) => {
   }
 }
 
-const ShowBlog = ({ initialData }) => {
+const ShowPost = ({ initialData }) => {
   const { query } = useRouter()
 
   const {
     isFetching,
-    data: { blog, comments },
+    data: { post, comments },
     refetch,
   } = useQuery({
-    queryKey: ["blog", query.blogId],
-    queryFn: () => apiClient(`/blog/${query.blogId}`),
+    queryKey: ["post", query.postId],
+    queryFn: () => apiClient(`/post/${query.postId}`),
     initialData,
     enabled: false,
   })
 
   const { mutateAsync: postComment } = useMutation({
-    mutationFn: ({ blogId, content }) =>
+    mutationFn: ({ postId, content }) =>
       apiClient.post(`/comments`, {
-        blogId,
+        postId,
         content,
       }),
   })
 
   const handleSubmit = async (values, { resetForm }) => {
-    await postComment({ blogId: blog.id, content: values.content })
+    await postComment({ postId: post.id, content: values.content })
     await refetch()
     resetForm()
   }
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">{blog.title}</h1>
-      <p className="text-lg mb-4">{blog.content}</p>
-      <p className="text-gray-500 mb-4">{blog.createdAt}</p>
-      <p className="text-gray-500 mb-4">current visit : {blog.visits}</p>
+      <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
+      <p className="text-lg mb-4">{post.content}</p>
+      <p className="text-gray-500 mb-4">{post.createdAt}</p>
+      <p className="text-gray-500 mb-4">current visit : {post.visits}</p>
       <Formik onSubmit={handleSubmit} initialValues={{ content: "" }}>
         <Form>
           <FormField name="content" label="Comment" />
@@ -71,7 +71,7 @@ const ShowBlog = ({ initialData }) => {
       <button
         className="border border-gray-300 rounded p-2"
         onClick={() => {
-          Router.push(`/editpost/${blog.id}`)
+          Router.push(`/editpost/${post.id}`)
         }}
       >
         edit that post ?
@@ -89,4 +89,4 @@ const ShowBlog = ({ initialData }) => {
   )
 }
 
-export default ShowBlog
+export default ShowPost

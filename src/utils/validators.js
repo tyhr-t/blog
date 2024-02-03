@@ -21,8 +21,8 @@ export const categoryNameValidator = string().min(8).required()
 export const statusValidator = boolean().required()
 export const idValidator = number().integer().min(1).required()
 export const pageValidator = number().integer().min(1).default(1).required()
-export const titleBlogValidator = string().required()
-export const contentBlogValidator = string().required()
+export const titlePostValidator = string().required()
+export const contentPostValidator = string().required()
 export const roleValidator = string().required()
 export const patchUserValidator = {
   role: rolePatchValidator,

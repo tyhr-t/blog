@@ -10,20 +10,20 @@ const handle = mw({
     validate({
       body: {
         content: contentCommentValidator,
-        blogId: idValidator,
+        postId: idValidator,
       },
     }),
     async ({
       models: { CommentModel },
       input: {
-        body: { content, blogId },
+        body: { content, postId },
       },
       session,
       res,
     }) => {
       const comment = await CommentModel.query().insert({
         content,
-        blogId,
+        postId,
         userId: session.id,
       })
       res.send({ result: comment })
@@ -35,12 +35,12 @@ const handle = mw({
     async ({
       models: { CommentModel },
       input: {
-        query: { blogId },
+        query: { postId },
       },
       res,
     }) => {
       const comments = await CommentModel.query()
-        .where("blogId", blogId)
+        .where("postId", postId)
         .withGraphFetched("users")
       res.send({ result: comments })
     },

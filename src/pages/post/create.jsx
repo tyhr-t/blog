@@ -1,11 +1,11 @@
-import BlogField from "@/web/components/ui/BlogField"
 import Form from "@/web/components/ui/Form"
 import FormField from "@/web/components/ui/FormField"
+import PostField from "@/web/components/ui/PostField"
 import apiClient from "@/web/services/apiClient"
 import { Formik } from "formik"
 export const getServerSideProps = async ({ req }) => {
   const cookie = req.headers.cookie
-  const data = await apiClient("/blogCategories", {
+  const data = await apiClient("/postCategories", {
     headers: {
       Cookie: cookie,
     },
@@ -25,7 +25,7 @@ const create = ({ categories }) => {
     isPublic: true,
   }
   const handleSubmit = async (values) => {
-    await axios.post("http://localhost:3000/api/blogs", values)
+    await axios.post("http://localhost:3000/api/posts", values)
   }
 
   return (
@@ -34,7 +34,7 @@ const create = ({ categories }) => {
         <h1 className="text-2xl text-black"> Write a title ⬇️</h1>
         <FormField name="title" placeholder="Enter a title" />
         <h1 className="text-2xl text-black"> Write a content ⬇️</h1>
-        <BlogField name="content" placeholder="Enter a content" />
+        <PostField name="content" placeholder="Enter a content" />
         <h1 className="text-2xl text-black">Is public ? ⬇️</h1>
         <FormField name="isPublic" type="checkbox" />
         <button

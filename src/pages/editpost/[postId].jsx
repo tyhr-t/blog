@@ -12,7 +12,7 @@ const initialValues = {
 export const getServerSideProps = async ({ params, req }) => {
   const { cookie } = req.headers
   const { postId } = params
-  const post = await axios.get(`http://localhost:3000/api/blog/${postId}`, {
+  const post = await axios.get(`http://localhost:3000/api/post/${postId}`, {
     headers: {
       Cookie: cookie,
     },
@@ -29,21 +29,21 @@ const EditPost = ({ initialData, postId }) => {
   // eslint-disable-next-line no-empty-pattern
   const {} = useQuery({
     queryKey: ["post"],
-    queryFn: () => axios.get(`http://localhost:3000/api/blog/${postId}`),
+    queryFn: () => axios.get(`http://localhost:3000/api/post/${postId}`),
     initialData,
     enabled: false,
   })
 
   useMutation({
-    mutationFn: (blog) =>
-      axios.patch(`/api/blog/${blog.id}`, {
-        title: blog.title,
-        content: blog.content,
+    mutationFn: (post) =>
+      axios.patch(`/api/post/${post.id}`, {
+        title: post.title,
+        content: post.content,
       }),
   })
 
   const handleSubmit = async (values) => {
-    await axios.patch(`/api/blog/${postId}`, {
+    await axios.patch(`/api/post/${postId}`, {
       title: values.title,
       content: values.content,
     })

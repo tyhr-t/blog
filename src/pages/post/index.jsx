@@ -1,8 +1,8 @@
-import GridOfAllBlog from "@/web/components/ui/blog/GridOfAllBlog"
+import GridOfAllPost from "@/web/components/ui/post/GridOfAllPost"
 import apiClient from "@/web/services/apiClient"
 export const getServerSideProps = async ({ req }) => {
   const cookie = req.headers.cookie
-  const blog = await apiClient("http://localhost:3000/api/blogs", {
+  const post = await apiClient("http://localhost:3000/api/posts", {
     headers: {
       Cookie: cookie,
     },
@@ -10,13 +10,13 @@ export const getServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      blog: blog.result,
+      post: post.result,
     },
   }
 }
-const index = ({ blog }) => (
+const index = ({ post }) => (
   <div>
-    <GridOfAllBlog blog={blog} />
+    <GridOfAllPost post={post} />
   </div>
 )
 

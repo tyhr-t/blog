@@ -2,7 +2,7 @@ import Form from "@/web/components/ui/Form"
 import FormField from "@/web/components/ui/FormField"
 import { Formik } from "formik"
 
-const WriteCommentSection = ({ blogId, handleSubmiting, initialValues }) => (
+const WriteCommentSection = ({ postId, handleSubmiting, initialValues }) => (
   <Formik onSubmit={handleSubmiting} initialValues={initialValues}>
     <Form>
       <FormField name="comment" label="Comment" />

@@ -1,5 +1,5 @@
 export const up = async (db) => {
-  await db.schema.alterTable("blogs", (table) => {
+  await db.schema.alterTable("posts", (table) => {
     table
       .integer("ownerId")
       .unsigned()
@@ -10,7 +10,7 @@ export const up = async (db) => {
 }
 
 export const down = async (db) => {
-  await db.schema.alterTable("blogs", (table) => {
+  await db.schema.alterTable("posts", (table) => {
     table.dropForeign("ownerId")
   })
 }

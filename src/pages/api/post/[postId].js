@@ -9,27 +9,27 @@ const handle = mw({
     auth,
     getValidateRole(["admin", "author", "user"]),
     async ({
-      models: { BlogModel, CommentModel },
+      models: { PostModel, CommentModel },
       req: {
-        query: { blogId },
+        query: { postId },
       },
       res,
     }) => {
-      const blog = await BlogModel.query().findById(blogId).throwIfNotFound()
+      const post = await PostModel.query().findById(postId).throwIfNotFound()
 
-      await BlogModel.query().updateAndFetchById(blogId, {
-        visits: blog.visits + 1,
+      await PostModel.query().updateAndFetchById(postId, {
+        visits: post.visits + 1,
       })
 
       const comments = await CommentModel.query()
         .clone()
-        .where("blogId", blogId)
+        .where("postId", postId)
         // .orderBy("createdAt", "DESC")
         .withGraphFetched("users")
       // .limit(config.ui.itemsPerPage)
       // .offset((page - 1) * config.ui.itemsPerPage)
 
-      res.send({ blog, comments })
+      res.send({ post, comments })
     },
   ],
   PATCH: [
@@ -37,7 +37,7 @@ const handle = mw({
     getValidateRole(["admin", "author"]),
     validate({
       query: {
-        blogId: idValidator,
+        postId: idValidator,
       },
       body: {
         title: todoDescriptionValidator.optional(),
@@ -45,35 +45,35 @@ const handle = mw({
       },
     }),
     async ({
-      models: { BlogModel },
+      models: { PostModel },
       req: {
-        query: { blogId },
+        query: { postId },
         body,
       },
       res,
     }) => {
-      const updatedBlog = await BlogModel.query()
-        .updateAndFetchById(blogId, {
+      const updatedPost = await PostModel.query()
+        .updateAndFetchById(postId, {
           ...body,
-          updatedAt: BlogModel.fn.now(),
+          updatedAt: PostModel.fn.now(),
         })
         .throwIfNotFound()
 
-      res.send(updatedBlog)
+      res.send(updatedPost)
     },
   ],
   DELETE: [
     auth,
     getValidateRole(["admin", "author"]),
     async ({
-      models: { BlogModel },
+      models: { PostModel },
       req: {
-        query: { blogId },
+        query: { postId },
       },
       res,
     }) => {
-      await BlogModel.query().deleteById(blogId).throwIfNotFound()
-      res.send({ message: "Blog deleted" })
+      await PostModel.query().deleteById(postId).throwIfNotFound()
+      res.send({ message: "Post deleted" })
     },
   ],
 })

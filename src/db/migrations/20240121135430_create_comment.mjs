@@ -6,8 +6,8 @@ export const up = async (db) => {
     table.integer("userId").notNullable()
     table.foreign("userId").references("id").inTable("users")
 
-    table.integer("blogId").notNullable()
-    table.foreign("blogId").references("id").inTable("blogs")
+    table.integer("postId").notNullable()
+    table.foreign("postId").references("id").inTable("posts")
 
     table.timestamps(true, true)
   })

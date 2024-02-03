@@ -10,37 +10,47 @@ const handle = mw({
       },
     }),
     async ({
-      models: { BlogCategoryModel },
+      models: { PostCategoryModel },
       input: {
         body: { name },
       },
       res,
     }) => {
-      const category = await BlogCategoryModel.query().insertAndFetch({ name })
+      const category = await PostCategoryModel.query().insertAndFetch({ name })
 
       res.send(category)
     },
   ],
   GET: [
+    async ({ res, req, next }) => {
+      console.log("coucou")
+      await next()
+    },
     validate({
       query: {
         page: pageValidator.optional(),
       },
     }),
+    async ({ res, req, next }) => {
+      console.log("coucou après")
+      await next()
+    },
     async ({
       res,
-      models: { BlogCategoryModel },
+      models: { PostCategoryModel },
       input: {
         query: { page },
       },
     }) => {
-      const query = BlogCategoryModel.query()
+      console.log("ALORS WHAT", page)
+      const query = PostCategoryModel.query()
       const categories = await query
         .clone()
         .limit(config.ui.itemsPerPage)
         .offset((page - 1) * config.ui.itemsPerPage)
       const [{ count }] = await query.clone().count()
 
+      console.log("ALORS WHAT 2")
       res.send({
         result: categories,
         meta: {

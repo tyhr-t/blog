@@ -10,14 +10,14 @@ const handle = mw({
       },
     }),
     async ({
-      models: { blogModel },
+      models: { postModel },
       input: {
         query: { userId },
       },
       res,
     }) => {
       {
-        const currentBlog = blogModel.query().findById(userId).throwIfNotFound()
+        const currentPost = postModel.query().findById(userId).throwIfNotFound()
       }
     },
   ],

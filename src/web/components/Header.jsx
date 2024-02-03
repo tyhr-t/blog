@@ -32,8 +32,8 @@ const Header = () => {
           <ul className="flex h-full gap-4 items-center">
             {session ? (
               <>
-                <MenuItem href="/blog/create">Create Post</MenuItem>
-                <MenuItem href="/blog">list Post</MenuItem>
+                <MenuItem href="/post/create">Create Post</MenuItem>
+                <MenuItem href="/post">list Post</MenuItem>
                 <MenuItem href="/user">list user</MenuItem>
                 <MenuItem href="/profile">edit Profile</MenuItem>
                 <MenuItem href="/dashboard">My Dashboard</MenuItem>

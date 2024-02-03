@@ -3,11 +3,11 @@ import { validate } from "@/api/middlewares/validate"
 import getValidateRole from "@/api/middlewares/validateRole"
 import mw from "@/api/mw"
 import {
-  contentBlogValidator,
+  contentPostValidator,
   idValidator,
   isPublicValidator,
   pageValidator,
-  titleBlogValidator,
+  titlePostValidator,
 } from "@/utils/validators"
 
 const handle = mw({
@@ -19,15 +19,15 @@ const handle = mw({
         page: pageValidator.optional(),
       },
     }),
-    async ({ res, models: { BlogModel } }) => {
-      const query = BlogModel.query()
-      const blog = await query
+    async ({ res, models: { PostModel } }) => {
+      const query = PostModel.query()
+      const post = await query
         .clone()
         .withGraphFetched("category")
         .where("isPublic", true)
         .orderBy("createdAt", "DESC")
       res.send({
-        result: blog,
+        result: post,
       })
     },
   ],
@@ -36,21 +36,21 @@ const handle = mw({
     getValidateRole(["admin", "author"]),
     validate({
       body: {
-        content: contentBlogValidator,
+        content: contentPostValidator,
         categoryId: idValidator,
-        title: titleBlogValidator,
+        title: titlePostValidator,
         isPublic: isPublicValidator,
       },
     }),
     async ({
-      models: { BlogModel },
+      models: { PostModel },
       input: {
         body: { content, title, categoryId, isPublic },
       },
       session: { id },
       res,
     }) => {
-      const blog = await BlogModel.query()
+      const post = await PostModel.query()
         .insertAndFetch({
           content,
           categoryId,
@@ -59,7 +59,7 @@ const handle = mw({
           ownerId: id,
         })
         .withGraphFetched("category")
-      res.send(blog)
+      res.send(post)
     },
   ],
 })

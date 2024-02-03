@@ -5,10 +5,10 @@ const handle = mw({
   GET: [
     auth,
     getValidateRole(["admin", "author", "user"]),
-    async ({ models: { BlogModel, CommentModel }, session, res }) => {
-      const blogs = await BlogModel.query().where("ownerId", session.id)
+    async ({ models: { PostModel, CommentModel }, session, res }) => {
+      const posts = await PostModel.query().where("ownerId", session.id)
       const comments = await CommentModel.query().where("userId", session.id)
-      res.send({ blogs: blogs.length, comments: comments.length })
+      res.send({ posts: posts.length, comments: comments.length })
     },
   ],
 })
