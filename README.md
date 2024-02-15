@@ -13,9 +13,10 @@ npm run dev
 you have the .env.local file to configure your database and your server port. example here:
 
 ```bash
-port=3000
-DB_HOST=tata
-DB_USER=toto
+NEXT_PUBLIC_API__BASE_URL=
+DB__CONNECTION= 
+SECURITY__JWT__SECRET=
+SECURITY__PASSWORD__PEPPER=
 
 ## Other
 
